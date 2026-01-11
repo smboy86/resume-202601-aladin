@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
+
   const query = searchParams.get('q');
   const perPage = searchParams.get('per_page') ?? '10';
   const page = searchParams.get('page') ?? '1';
@@ -16,11 +17,14 @@ export async function GET(request: Request) {
   }
 
   const token = process.env.GITHUB_TOKEN;
-  if (!token) {
-    return NextResponse.json({ message: 'GITHUB_TOKEN이 설정되어 있지 않습니다.' }, { status: 500 });
-  }
+
+  // 토큰이 없어도 조회는 되도록
+  // if (!token) {
+  //   return NextResponse.json({ message: 'GITHUB_TOKEN이 설정되어 있지 않습니다.' }, { status: 500 });
+  // }
 
   const url = new URL('/search/users', baseUrl);
+
   url.searchParams.set('q', query);
   url.searchParams.set('per_page', perPage);
   url.searchParams.set('page', page);
@@ -28,12 +32,23 @@ export async function GET(request: Request) {
   const response = await fetch(url.toString(), {
     headers: {
       Accept: 'application/vnd.github+json',
-      Authorization: `token ${token}`,
-      'X-GitHub-Api-Version': '2022-11-28',
+      ...(token && { Authorization: `Bearer ${token}` }),
     },
     cache: 'no-store',
   });
 
   const data = await response.json();
-  return NextResponse.json(data, { status: response.status });
+
+  const limitHeader = response.headers.get('x-ratelimit-limit');
+  const remainingHeader = response.headers.get('x-ratelimit-remaining');
+
+  return NextResponse.json(
+    {
+      ...data,
+      isAuth: Boolean(token),
+      limitHeader: Number(limitHeader ?? 0),
+      remainingHeader: Number(remainingHeader ?? 0),
+    },
+    { status: response.status },
+  );
 }

@@ -2,9 +2,7 @@ import { LinearProgress, Box, Typography, Chip } from '@mui/material';
 import { useAppSelector } from '@/store/hooks';
 
 export const RateLimitMonitor = () => {
-  const { limit, remaining } = useAppSelector((state) => state.rateLimit);
-  const token = process.env.NEXT_PUBLIC_GITHUB_TOKEN ?? '';
-  const isAuth = token.trim().length > 0;
+  const { isAuth, limit, remaining } = useAppSelector((state) => state.rateLimit);
   const usagePercent = limit > 0 ? (remaining / limit) * 100 : 0;
 
   return (

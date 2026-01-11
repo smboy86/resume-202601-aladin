@@ -54,9 +54,10 @@ type SearchResponse = {
   incomplete_results: boolean;
   total_count: number;
   items: GithubUser[];
+  isAuth: boolean;
+  limitHeader: number;
+  remainingHeader: number;
 };
-
-const GITHUB_TOKEN = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
 
 export default function SearchPage() {
   const dispatch = useAppDispatch();
@@ -161,30 +162,28 @@ export default function SearchPage() {
       if (sort !== 'default') {
         params.set('sort', sort);
       }
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_GITHUB_API_BASE_URL}/search/users?${params.toString()}`,
-        {
-          headers: {
-            Accept: 'application/vnd.github.v3+json',
-            // 토큰이 있을 경우에만 Authorization 헤더 추가
-            ...(GITHUB_TOKEN && { Authorization: `Bearer ${GITHUB_TOKEN}` }),
-          },
-        },
-      );
-      const limitHeader = response.headers.get('x-ratelimit-limit');
-      const remainingHeader = response.headers.get('x-ratelimit-remaining');
+      const response = await fetch(`/api/github/search-users?${params.toString()}`);
+
+      if (!response.ok) {
+        throw new Error('검색 요청에 실패했습니다.');
+      }
+
+      const data = (await response.json()) as SearchResponse;
+
+      const isAuth = data.isAuth;
+      const remainingHeader = data.remainingHeader;
+      const limitHeader = data.limitHeader;
+
       if (limitHeader && remainingHeader) {
         dispatch(
           setRateLimit({
+            isAuth: data.isAuth,
             limit: Number(limitHeader),
             remaining: Number(remainingHeader),
           }),
         );
       }
-      if (!response.ok) {
-        throw new Error('검색 요청에 실패했습니다.');
-      }
-      const data = (await response.json()) as SearchResponse;
+
       setTotalCount(data.total_count ?? 0);
       setResults(data.items ?? []);
     } catch (err) {
