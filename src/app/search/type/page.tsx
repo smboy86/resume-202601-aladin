@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import { SortSelect, type SortOption } from '@/components/ui/SortSelect';
 
-type SearchMode = 'name' | 'org';
+type SearchMode = 'user' | 'org';
 
 type GithubUser = {
   id: number;
@@ -31,7 +31,7 @@ type SearchResponse = {
 };
 
 export default function SearchTypePage() {
-  const [mode, setMode] = useState<SearchMode>('name');
+  const [mode, setMode] = useState<SearchMode>('user');
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -40,19 +40,17 @@ export default function SearchTypePage() {
 
   const helperText = useMemo(
     () =>
-      mode === 'name'
-        ? 'login 또는 name 필드에서 검색됩니다.'
-        : 'org:조직명 조건으로 사용자/조직을 찾습니다.',
+      mode === 'user'
+        ? 'type:user 조건이 적용됩니다.'
+        : 'type:org 조건이 적용됩니다.',
     [mode],
   );
 
   const buildQuery = (value: string) => {
     const trimmed = value.trim();
     if (!trimmed) return '';
-    if (mode === 'org') {
-      return `org:${trimmed}`;
-    }
-    return `in:login in:name ${trimmed}`;
+    const typeFilter = mode === 'user' ? 'type:user' : 'type:org';
+    return `${typeFilter} ${trimmed}`;
   };
 
   const handleSearch = async () => {
@@ -106,13 +104,13 @@ export default function SearchTypePage() {
               value={mode}
               onChange={(event) => setMode(event.target.value as SearchMode)}
               className='sm:w-40'>
-              <MenuItem value='name'>이름</MenuItem>
+              <MenuItem value='user'>사용자</MenuItem>
               <MenuItem value='org'>조직</MenuItem>
             </TextField>
             <TextField
               size='small'
-              label={mode === 'name' ? '사용자 이름' : '조직 이름'}
-              placeholder={mode === 'name' ? '예: octocat' : '예: github'}
+              label={mode === 'user' ? '사용자 키워드' : '조직 키워드'}
+              placeholder={mode === 'user' ? '예: octocat' : '예: github'}
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               onKeyDown={(event) => {
