@@ -20,7 +20,7 @@
 - [ ] 후원 가능 여부를 기준으로 검색
 - [ ] 시스템 연동 다크 모드 지원
 - [ ] 스크린: SM / MD / LG / XL 지원
-- [ ] 머터리얼 디자인 칼라 팔레트 지원
+- [x] 머터리얼 디자인 칼라 팔레트 지원
 - [ ] 폰트 폴백: 애플 기본 > Noto
 - [ ] UI 컴포넌트는 MUI 사용, UI 컴포넌트 레이아웃은 Tailwind CSS 사용
 - [ ] 정렬 조건: 기본, followers, repositories, joined 지원 + DESC
