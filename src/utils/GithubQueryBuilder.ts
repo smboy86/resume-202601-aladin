@@ -10,6 +10,12 @@ interface SearchParams {
     start?: string;
     end?: string;
   };
+  followersRange?: {
+    mode: 'gte' | 'lte' | 'range';
+    value?: string;
+    start?: string;
+    end?: string;
+  };
   created?: {
     mode: 'exact' | 'before' | 'after' | 'range';
     value?: string;
@@ -25,6 +31,7 @@ export const buildGithubUserQuery = ({
   language,
   keyword,
   repoRange,
+  followersRange,
   created,
 }: SearchParams): string => {
   const parts: string[] = [];
@@ -41,6 +48,14 @@ export const buildGithubUserQuery = ({
     } else if (repoRange.mode !== 'range' && repoRange.value) {
       const operator = repoRange.mode === 'gte' ? '>=' : '<=';
       parts.push(`repos:${operator}${repoRange.value}`);
+    }
+  }
+  if (followersRange) {
+    if (followersRange.mode === 'range' && followersRange.start && followersRange.end) {
+      parts.push(`followers:${followersRange.start}..${followersRange.end}`);
+    } else if (followersRange.mode !== 'range' && followersRange.value) {
+      const operator = followersRange.mode === 'gte' ? '>=' : '<=';
+      parts.push(`followers:${operator}${followersRange.value}`);
     }
   }
   if (created) {
