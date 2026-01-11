@@ -88,7 +88,7 @@ export default function SearchTypePage() {
         </header>
 
         <Paper className='rounded-2xl border border-zinc-200 p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-900'>
-          <div className='flex flex-col gap-3 sm:flex-row sm:items-center'>
+          <div className='sm:flex-start flex flex-col gap-3 sm:flex-row'>
             <TextField
               select
               size='small'
@@ -105,6 +105,12 @@ export default function SearchTypePage() {
               placeholder={mode === 'name' ? '예: octocat' : '예: github'}
               value={query}
               onChange={(event) => setQuery(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter') {
+                  event.preventDefault();
+                  handleSearch();
+                }
+              }}
               className='flex-1'
               helperText={helperText}
             />
