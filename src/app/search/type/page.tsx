@@ -13,6 +13,7 @@ import {
   Paper,
   TextField,
 } from '@mui/material';
+import { SortSelect, type SortOption } from '@/components/ui/SortSelect';
 
 type SearchMode = 'name' | 'org';
 
@@ -35,6 +36,7 @@ export default function SearchTypePage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [results, setResults] = useState<GithubUser[]>([]);
+  const [sort, setSort] = useState<SortOption>('default');
 
   const helperText = useMemo(
     () =>
@@ -59,9 +61,17 @@ export default function SearchTypePage() {
     setLoading(true);
     setError('');
     try {
-      //  https://api.github.com/search/users?q=language:python&sort=repositories&order=asc
+      const params = new URLSearchParams({
+        q: built,
+        per_page: '10',
+        page: '1',
+        order: 'desc',
+      });
+      if (sort !== 'default') {
+        params.set('sort', sort);
+      }
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_GITHUB_API_BASE_URL}/search/users?q=${encodeURIComponent(built)}&per_page=10&page=1`,
+        `${process.env.NEXT_PUBLIC_GITHUB_API_BASE_URL}/search/users?${params.toString()}`,
       );
       if (!response.ok) {
         throw new Error('검색 요청에 실패했습니다.');
@@ -124,6 +134,10 @@ export default function SearchTypePage() {
             </Button>
           </div>
         </Paper>
+
+        <div className='flex justify-end'>
+          <SortSelect value={sort} onChange={setSort} />
+        </div>
 
         <Paper className='overflow-hidden' elevation={0} variant='outlined'>
           {error && <p className='px-6 py-4 text-sm text-red-600'>{error}</p>}
