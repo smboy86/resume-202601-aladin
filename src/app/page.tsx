@@ -14,11 +14,22 @@ export default function Home() {
         <header className='flex flex-col gap-3'>
           <p className='text-sm tracking-[0.2em] text-zinc-500 uppercase dark:text-zinc-400'>Theme Preview</p>
           <h1 className='text-3xl font-semibold tracking-tight'>Github API</h1>
-          <p className='text-base text-zinc-600 dark:text-zinc-400'>
-            MUI 머터리얼 컬러 팔레트를 확인하기 위한 예시 리스트입니다.
-          </p>
         </header>
-
+        <p className='text-base text-zinc-600 dark:text-zinc-400'>Github Search User API 페이지</p>
+        <Paper className='overflow-hidden' elevation={0} variant='outlined'>
+          <List disablePadding>
+            <Box>
+              <ListItem disableGutters disablePadding>
+                <Link href={'/search'} passHref className='w-full'>
+                  <ListItemButton className='w-full px-6 py-4'>
+                    <ListItemText primary={'search api'} secondary={'Main 페이지'} />
+                  </ListItemButton>
+                </Link>
+              </ListItem>
+            </Box>
+          </List>
+        </Paper>
+        <p className='text-base text-zinc-600 dark:text-zinc-400'>기능별 화면을 개발해 간 페이지 입니다.</p>
         <Paper className='overflow-hidden' elevation={0} variant='outlined'>
           <List disablePadding>
             {/* Link 스타일 */}
@@ -37,6 +48,9 @@ export default function Home() {
           </List>
         </Paper>
 
+        <p className='text-base text-zinc-600 dark:text-zinc-400'>
+          MUI 머터리얼 컬러 팔레트를 확인하기 위한 예시 리스트입니다.
+        </p>
         <Paper className='overflow-hidden' elevation={0} variant='outlined'>
           <List disablePadding>
             {/* 컴포넌트 분리 스타일 */}

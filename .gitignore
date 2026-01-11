@@ -31,7 +31,7 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # env files (can opt-in for committing if needed)
-.env*
+# .env* // 간편한 설치 및 실행환경을 위해 주석
 
 # vercel
 .vercel

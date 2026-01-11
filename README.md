@@ -2,6 +2,14 @@
 
 2026.01 알라딘 입사 지원, 과제
 
+## 프로젝트 설치 가이드
+1. GitHub 저장소를 clone 합니다.
+2. `.env` 파일에서 `NEXT_PUBLIC_GITHUB_API_BASE_URL` 값을 확인합니다.
+3. `pnpm install` 실행
+4. `pnpm dev` 실행
+5. 브라우저에서 `http://localhost:3000` 접속
+6. `/search` 화면으로 이동해 검색 결과를 확인
+
 ## TODOs
 
 ### 기능
