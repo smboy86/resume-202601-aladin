@@ -36,7 +36,7 @@
 - [ ] 사용자 아바타 이미지 처리: HTML5 Canvas + WebAssembly 를 통해 랜더링
 - [ ] Jest 를 통한 유닛 테스트 지원
 - [ ] Cypress 를 통한 E2E 테스트 지원
-- [ ] 모든 GitHub 호출은 서버 라우트에서 Authorization: token 사용
+- [x] 모든 GitHub 호출은 서버 라우트에서 Authorization: token 사용
 - [ ] 레이트리밋 초과 시 재시도, 남은 쿼터 노출
 
 ### 테스트 조건

@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import themeReducer from './themeSlice';
+import rateLimitReducer from './rateLimitSlice';
 
 export const store = configureStore({
   reducer: {
     theme: themeReducer,
+    rateLimit: rateLimitReducer,
   },
 });
 

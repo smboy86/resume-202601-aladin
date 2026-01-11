@@ -32,6 +32,8 @@ import { buildGithubUserQuery } from '@/utils/GithubQueryBuilder';
 import { TOP_20_LANGUAGES } from '@/constants/languages';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { setMode as setThemeMode } from '@/store/themeSlice';
+import { setRateLimit } from '@/store/rateLimitSlice';
+import { RateLimitMonitor } from '@/components/ui/RateLimitMonitor';
 
 type SearchMode = 'user' | 'org';
 type RepoRangeMode = 'gte' | 'lte' | 'range';
@@ -53,6 +55,8 @@ type SearchResponse = {
   total_count: number;
   items: GithubUser[];
 };
+
+const GITHUB_TOKEN = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
 
 export default function SearchPage() {
   const dispatch = useAppDispatch();
@@ -141,6 +145,7 @@ export default function SearchPage() {
     });
   };
 
+  // API 검색 핸들러
   const handleSearch = async () => {
     const built = buildQuery();
     if (!built) return;
@@ -158,7 +163,24 @@ export default function SearchPage() {
       }
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_GITHUB_API_BASE_URL}/search/users?${params.toString()}`,
+        {
+          headers: {
+            Accept: 'application/vnd.github.v3+json',
+            // 토큰이 있을 경우에만 Authorization 헤더 추가
+            ...(GITHUB_TOKEN && { Authorization: `Bearer ${GITHUB_TOKEN}` }),
+          },
+        },
       );
+      const limitHeader = response.headers.get('x-ratelimit-limit');
+      const remainingHeader = response.headers.get('x-ratelimit-remaining');
+      if (limitHeader && remainingHeader) {
+        dispatch(
+          setRateLimit({
+            limit: Number(limitHeader),
+            remaining: Number(remainingHeader),
+          }),
+        );
+      }
       if (!response.ok) {
         throw new Error('검색 요청에 실패했습니다.');
       }
@@ -481,6 +503,8 @@ export default function SearchPage() {
           )}
         </Paper>
       </main>
+      {/* API 인증 및 Limit 모니터링 */}
+      <RateLimitMonitor />
     </div>
   );
 }
