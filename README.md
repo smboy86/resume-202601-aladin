@@ -35,12 +35,22 @@
 
 - [ ] README.md 에 관련 소스를 실행하고 테스트 할 수 있는 방법 제시
 
-- ### 정밀 테스트 조건
+### 정밀 테스트 조건
 
 - [ ] 검색 쿼리, 정렬, 페이징 로직
 - [ ] 데이터 매핑, 표시 안전성
 - [ ] SSR, CSR 경계 로직
 - [ ] (+점수) 그외 추가로 안정성을 위한 테스트 조건 코드
+
+### 개발/테스트 환경
+
+- [ ] Clean Architecture + Modularity
+- [x] InteliJ Idea + pnpm + turbo
+- [x] ESLint + Prettier
+- [x] ES2023 + Next.js + TypeScript (Next.js App Router)
+- [x] MUI + Tailwind CSS
+- [ ] Redux Toolkit
+- [ ] Cypress + Jest
 
 ## 프로젝트 설치 가이드
 
