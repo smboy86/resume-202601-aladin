@@ -22,6 +22,7 @@ interface SearchParams {
     start?: string;
     end?: string;
   };
+  sponsorable?: boolean;
 }
 
 export const buildGithubUserQuery = ({
@@ -33,6 +34,7 @@ export const buildGithubUserQuery = ({
   repoRange,
   followersRange,
   created,
+  sponsorable,
 }: SearchParams): string => {
   const parts: string[] = [];
 
@@ -68,6 +70,9 @@ export const buildGithubUserQuery = ({
     } else if (created.mode === 'exact' && created.value) {
       parts.push(`created:${created.value}`);
     }
+  }
+  if (sponsorable) {
+    parts.push('is:sponsorable');
   }
   if (keyword) parts.push(keyword);
 
