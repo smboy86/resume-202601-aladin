@@ -64,7 +64,7 @@ export default function SearchJoinedPage() {
   const [selectedLocation, setSelectedLocation] = useState<LocationOption | null>(null);
   const [selectedLanguage, setSelectedLanguage] = useState<LanguageOption | null>(null);
   const [createdMode, setCreatedMode] = useState<CreatedMode>('exact');
-  const [createdDate, setCreatedDate] = useState<Dayjs | null>(dayjs());
+  const [createdDate, setCreatedDate] = useState<Dayjs | null>(null);
   const [createdStart, setCreatedStart] = useState<Dayjs | null>(null);
   const [createdEnd, setCreatedEnd] = useState<Dayjs | null>(null);
 
