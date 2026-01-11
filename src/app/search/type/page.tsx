@@ -39,10 +39,7 @@ export default function SearchTypePage() {
   const [sort, setSort] = useState<SortOption>('default');
 
   const helperText = useMemo(
-    () =>
-      mode === 'user'
-        ? 'type:user 조건이 적용됩니다.'
-        : 'type:org 조건이 적용됩니다.',
+    () => (mode === 'user' ? 'type:user 조건이 적용됩니다.' : 'type:org 조건이 적용됩니다.'),
     [mode],
   );
 
@@ -91,7 +88,7 @@ export default function SearchTypePage() {
           <p className='text-sm tracking-[0.2em] text-zinc-500 uppercase dark:text-zinc-400'>Github API</p>
           <h1 className='text-3xl font-semibold tracking-tight'>사용자 또는 조직만 검색</h1>
           <p className='text-base text-zinc-600 dark:text-zinc-400'>
-            GitHub Search Users API를 사용해 이름 또는 조직 조건으로 검색합니다.
+            GitHub Search Users API를 사용해 사용자 또는 조직 조건으로 검색합니다.
           </p>
         </header>
 
