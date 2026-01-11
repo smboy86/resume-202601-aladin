@@ -162,24 +162,33 @@ export default function SearchPage() {
       if (sort !== 'default') {
         params.set('sort', sort);
       }
-      const response = await fetch(`/api/github/search-users?${params.toString()}`);
+      const requestUrl = `/api/github/search-users?${params.toString()}`;
+      let response = await fetch(requestUrl);
+      let attempt = 1; // 횟수 초기값
+      const maxAttempts = 20; // 최대 20번 리트라이
+
+      while (response.status === 403 && attempt < maxAttempts) {
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        response = await fetch(requestUrl);
+        attempt += 1;
+      }
 
       if (!response.ok) {
         throw new Error('검색 요청에 실패했습니다.');
       }
 
-      const data = (await response.json()) as SearchResponse;
+      const data = (await response.json()) as SearchResponse & {
+        isAuth?: boolean;
+        limitHeader?: number;
+        remainingHeader?: number;
+      };
 
-      const isAuth = data.isAuth;
-      const remainingHeader = data.remainingHeader;
-      const limitHeader = data.limitHeader;
-
-      if (limitHeader && remainingHeader) {
+      if (data.limitHeader !== undefined && data.remainingHeader !== undefined) {
         dispatch(
           setRateLimit({
-            isAuth: data.isAuth,
-            limit: Number(limitHeader),
-            remaining: Number(remainingHeader),
+            isAuth: Boolean(data.isAuth),
+            limit: Number(data.limitHeader),
+            remaining: Number(data.remainingHeader),
           }),
         );
       }
