@@ -1,5 +1,6 @@
-@layer base, components, utilities, mui;
 @import 'tailwindcss';
+@custom-variant dark (&:where(.dark, .dark *));
+@layer base, components, utilities, mui;
 
 :root {
   --background: #ffffff;

@@ -9,6 +9,7 @@ import {
   Divider,
   FormControlLabel,
   FormGroup,
+  IconButton,
   List,
   ListItem,
   ListItemAvatar,
@@ -17,7 +18,9 @@ import {
   Paper,
   Switch,
   TextField,
+  useMediaQuery,
 } from '@mui/material';
+import { DarkMode, LightMode } from '@mui/icons-material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -27,6 +30,8 @@ import { LocationAutocomplete } from '@/components/ui/LocationAutocomplete';
 import { LocationOption } from '@/types/location';
 import { buildGithubUserQuery } from '@/utils/GithubQueryBuilder';
 import { TOP_20_LANGUAGES } from '@/constants/languages';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { setMode as setThemeMode } from '@/store/themeSlice';
 
 type SearchMode = 'user' | 'org';
 type RepoRangeMode = 'gte' | 'lte' | 'range';
@@ -50,7 +55,11 @@ type SearchResponse = {
 };
 
 export default function SearchPage() {
-  const [mode, setMode] = useState<SearchMode>('user');
+  const dispatch = useAppDispatch();
+  const themeMode = useAppSelector((state) => state.theme.mode);
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const resolvedMode = themeMode === 'system' ? (prefersDarkMode ? 'dark' : 'light') : themeMode;
+  const [mode, setSearchMode] = useState<SearchMode>('user');
   const [query, setQuery] = useState('');
   const [filters, setFilters] = useState<IdentityFilter[]>([]);
   const [rangeMode, setRangeMode] = useState<RepoRangeMode>('gte');
@@ -166,10 +175,16 @@ export default function SearchPage() {
   };
 
   return (
-    <div className='min-h-screen bg-zinc-50 px-6 py-12 text-zinc-900 sm:px-10 dark:bg-zinc-950 dark:text-zinc-50'>
+    <div className='min-h-screen bg-white px-6 py-12 text-zinc-900 sm:px-10 dark:bg-zinc-950 dark:text-zinc-50'>
       <main className='mx-auto flex w-full max-w-4xl flex-col gap-8'>
-        <header className='space-y-2'>
+        <header className='flex items-center justify-between'>
           <p className='text-sm tracking-[0.2em] text-zinc-500 uppercase dark:text-zinc-400'>Github API</p>
+          <IconButton
+            aria-label='테마 전환'
+            onClick={() => dispatch(setThemeMode(resolvedMode === 'dark' ? 'light' : 'dark'))}
+            size='small'>
+            {resolvedMode === 'dark' ? <LightMode fontSize='small' /> : <DarkMode fontSize='small' />}
+          </IconButton>
         </header>
 
         <Paper className='rounded-2xl border border-zinc-200 p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-900'>
@@ -179,7 +194,7 @@ export default function SearchPage() {
               size='small'
               label='검색 기준'
               value={mode}
-              onChange={(event) => setMode(event.target.value as SearchMode)}
+              onChange={(event) => setSearchMode(event.target.value as SearchMode)}
               className='sm:w-40'>
               <MenuItem value='user'>사용자</MenuItem>
               <MenuItem value='org'>조직</MenuItem>
