@@ -4,6 +4,48 @@
 
 ## 프로젝트 설치 가이드
 
+1. Next.js(App Router) 프로젝트 생성
+
+```bash
+pnpm dlx create-next-app@latest . --ts --app --eslint --tailwind --src-dir --import-alias "@/*" --use-pnpm
+```
+
+2. MUI 설치
+
+```bash
+pnpm add @mui/material @mui/icons-material @emotion/react @emotion/styled
+```
+
+3. Redux Toolkit 설치
+
+```bash
+pnpm add @reduxjs/toolkit react-redux
+```
+
+4. Jest(유닛 테스트) 설치
+
+```bash
+pnpm add -D jest @types/jest ts-jest @testing-library/react @testing-library/jest-dom @testing-library/user-event
+```
+
+5. Cypress(E2E 테스트) 설치
+
+```bash
+pnpm add -D cypress
+```
+
+6. ESLint + Prettier 추가
+
+```bash
+pnpm add -D prettier eslint-config-prettier eslint-plugin-prettier
+```
+
+7. Turbo 추가
+
+```bash
+pnpm add -D turbo
+```
+
 ## 과제 분석
 
 ### 목표
