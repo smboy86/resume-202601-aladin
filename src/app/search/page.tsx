@@ -170,8 +170,6 @@ export default function SearchPage() {
       <main className='mx-auto flex w-full max-w-4xl flex-col gap-8'>
         <header className='space-y-2'>
           <p className='text-sm tracking-[0.2em] text-zinc-500 uppercase dark:text-zinc-400'>Github API</p>
-          <h1 className='text-3xl font-semibold tracking-tight'>후원 가능 여부를 기준으로 검색</h1>
-          <p className='text-base text-zinc-600 dark:text-zinc-400'>후원가능여부 조건을 활용합니다.</p>
         </header>
 
         <Paper className='rounded-2xl border border-zinc-200 p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-900'>

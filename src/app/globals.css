@@ -10,7 +10,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: -apple-system, 'SF Pro Text', 'SF Pro Display', 'Noto Sans KR', 'Noto Sans', sans-serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
   --font-mono: var(--font-geist-mono);
 }
 

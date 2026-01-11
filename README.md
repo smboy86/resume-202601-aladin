@@ -29,9 +29,9 @@
 - [ ] 시스템 연동 다크 모드 지원
 - [ ] 스크린: SM / MD / LG / XL 지원
 - [x] 머터리얼 디자인 칼라 팔레트 지원
-- [ ] 폰트 폴백: 애플 기본 > Noto
-- [ ] UI 컴포넌트는 MUI 사용, UI 컴포넌트 레이아웃은 Tailwind CSS 사용
-- [ ] 정렬 조건: 기본, followers, repositories, joined 지원 + DESC
+- [x] 폰트 폴백: 애플 기본 > Noto
+- [x] UI 컴포넌트는 MUI 사용, UI 컴포넌트 레이아웃은 Tailwind CSS 사용
+- [x] 정렬 조건: 기본, followers, repositories, joined 지원 + DESC
 - [ ] 페이징 처리: SSR 로 첫페이지 선 랜더링, 이후 CSR 로 무한 스크롤
 - [ ] 사용자 아바타 이미지 처리: HTML5 Canvas + WebAssembly 를 통해 랜더링
 - [ ] Jest 를 통한 유닛 테스트 지원
@@ -41,7 +41,7 @@
 
 ### 테스트 조건
 
-- [ ] README.md 에 관련 소스를 실행하고 테스트 할 수 있는 방법 제시
+- [x] README.md 에 관련 소스를 실행하고 테스트 할 수 있는 방법 제시
 
 ### 정밀 테스트 조건
 
@@ -52,7 +52,7 @@
 
 ### 개발/테스트 환경
 
-- [ ] Clean Architecture + Modularity
+- [x] Clean Architecture + Modularity
 - [x] InteliJ Idea + pnpm + turbo
 - [x] ESLint + Prettier
 - [x] ES2023 + Next.js + TypeScript (Next.js App Router)

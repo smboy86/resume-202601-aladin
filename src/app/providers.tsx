@@ -44,8 +44,13 @@ export default function Providers({ children }: ProvidersProps) {
             : { default: grey[50], paper: '#ffffff' },
         },
         typography: {
-          fontFamily:
-            '-apple-system, "SF Pro Text", "SF Pro Display", "Noto Sans KR", "Noto Sans", sans-serif',
+          fontFamily: [
+            '-apple-system',
+            'BlinkMacSystemFont',
+            '"Apple SD Gothic Neo"',
+            '"Noto Sans KR"',
+            'sans-serif',
+          ].join(', '),
         },
       }),
     [prefersDarkMode],
